@@ -4,6 +4,7 @@ const app = express();
 const dotenv = require("dotenv");
 //import routes
 const authRoutes = require("./routes/auth");
+const orderRoutes = require("./routes/orders");
 
 dotenv.config();
 //DB
@@ -15,4 +16,5 @@ app.use(express.json());
 //middleware
 
 app.use("/api/users", authRoutes);
+app.use("/orders", orderRoutes);
 app.listen(5000, console.log("serever running on port 5000"));
