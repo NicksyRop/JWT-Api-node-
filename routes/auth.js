@@ -3,6 +3,7 @@ const router = require("express").Router();
 const User = require("../model/User");
 
 const { body, check, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 router.post(
   "/register",
@@ -26,11 +27,21 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
+    const emaiExist = await User.findOne({ email: req.body.email });
+    if (emaiExist) {
+      res.status(400).json("Email already in use");
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashPass = bcrypt.hashSync(req.body.password, salt);
+    const hashConfirm = bcrypt.hashSync(req.body.confirm_password, salt);
+
     const user = new User({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password,
-      confirm_password: req.body.confirm_password,
+      password: hashPass,
+      confirm_password: hashConfirm,
     });
 
     try {
