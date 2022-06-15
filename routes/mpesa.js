@@ -23,9 +23,7 @@ router.get("/authorization", (req, res) => {
     requestOptions
   )
     .then((response) => response.json())
-    .then((result) => {
-      return res.send(result);
-    })
+    .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
 });
 
