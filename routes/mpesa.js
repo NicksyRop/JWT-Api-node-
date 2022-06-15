@@ -1,20 +1,20 @@
 const router = require("express").Router();
 
 router.get("/authorization", (req, res) => {
-  let unirest = require("unirest");
-  let req = unirest(
-    "GET",
-    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+  let headers = new Headers();
+  headers.append(
+    "Authorization",
+    "Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ=="
+  );
+  fetch(
+    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+    { headers }
   )
-    .headers({
-      Authorization:
-        "Bearer cFJZcjZ6anEwaThMMXp6d1FETUxwWkIzeVBDa2hNc2M6UmYyMkJmWm9nMHFRR2xWOQ==",
+    .then((response) => response.json())
+    .then((result) => {
+      return res.send(result);
     })
-    .send()
-    .end((res) => {
-      if (res.error) throw new Error(res.error);
-      return res.raw_body;
-    });
+    .catch((error) => console.log(error));
 });
 
 module.exports = router;
