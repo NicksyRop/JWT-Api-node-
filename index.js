@@ -6,6 +6,7 @@ const cors = require("cors");
 //import routes
 const authRoutes = require("./routes/auth");
 const orderRoutes = require("./routes/orders");
+const mpesaRoures = require("./routes/mpesa");
 
 dotenv.config();
 //DB
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/users", authRoutes);
 app.use("/orders", orderRoutes);
+app.use("/mpesa", mpesaRoures);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Node js JWT authentication API");
