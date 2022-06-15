@@ -10,7 +10,7 @@ router.get("/authorization", (req, res) => {
     "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
     { headers }
   )
-    .then((response) => response.json())
+    .then((response) => response.text())
     .then((result) => {
       return res.send(result);
     })
