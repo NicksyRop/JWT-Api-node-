@@ -63,18 +63,18 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json("failure", { errors: errors.array() });
     }
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(400).json({ error: "Email or Password is wrong" });
+      res.status(400).json("failure", { error: "Email or Password is wrong" });
     }
 
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
-      res.status(400).json({ error: "Email or Password is wrong" });
+      res.status(400).json("failure", { error: "Email or Password is wrong" });
     }
     //create token
     var token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
@@ -83,7 +83,7 @@ router.post(
 
     res
       .header("auth-token", token)
-      .json({ status: 200, user_id: user._id, auth_token: token });
+      .json("success", { user_id: user._id, auth_token: token });
   }
 );
 module.exports = router;
