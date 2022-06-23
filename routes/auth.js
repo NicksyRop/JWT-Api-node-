@@ -68,22 +68,23 @@ router.post(
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status(400).json("failure", { error: "Email or Password is wrong" });
+      res.status(400).json({ error: "Email or Password is wrong" });
     }
 
     const match = await bcrypt.compare(req.body.password, user.password);
 
     if (!match) {
-      res.status(400).json("failure", { error: "Email or Password is wrong" });
+      res.status(400).json({ error: "Email or Password is wrong" });
     }
     //create token
     var token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
       expiresIn: "48h",
     });
 
-    res
-      .status(200)
+    return res
+
       .header("auth-token", token)
+      .status(200)
       .json({ user_id: user._id, auth_token: token });
   }
 );
