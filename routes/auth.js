@@ -83,7 +83,7 @@ router.post(
 
     res
       .header("auth-token", token)
-      .json({ user_id: user._id, auth_token: token });
+      .json({ status: 200, user_id: user._id, auth_token: token });
   }
 );
 module.exports = router;
