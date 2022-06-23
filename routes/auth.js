@@ -82,8 +82,9 @@ router.post(
     });
 
     res
+      .status(200)
       .header("auth-token", token)
-      .json("success", { user_id: user._id, auth_token: token });
+      .json({ user_id: user._id, auth_token: token });
   }
 );
 module.exports = router;
